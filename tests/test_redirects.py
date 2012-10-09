@@ -26,9 +26,30 @@ class TestRedirects(Base):
 
         response = self._head_request(url, params=param)
 
-        Assert.equal(response.status_code, requests.codes.not_found)
+        Assert.equal(response.status_code, requests.codes.not_found,'Failed on %s \nUsing %s' %(url, param))
 
         parsed_url = urlparse(response.url)
-        Assert.equal(parsed_url.scheme, 'https')
-        Assert.equal(parsed_url.netloc, urlparse(url).netloc)
-        Assert.equal(parsed_url.query, urlencode(param))
+        Assert.equal(parsed_url.scheme, 'https', 'Failed on %s \nUsing %s' %(url, param))
+        Assert.equal(parsed_url.netloc, urlparse(url).netloc,'Failed on %s \nUsing %s' %(url, param))
+        Assert.equal(parsed_url.query, urlencode(param),'Failed on %s \nUsing %s' %(url, param))
+
+    def test_that_checks_redirect_using_locales_and_os(self, mozwebqa, lang, os):
+
+        url = mozwebqa.base_url
+
+        # Ja locale has a special code for mac
+        if lang == 'ja' and os == 'osx':
+            lang = 'ja-JP-mac'
+
+        param = {
+            'product': 'firefox-16.0b6',
+            'lang': lang,
+            'os': os
+        }
+
+        response = self._head_request(url, params=param)
+
+        parsed_url = urlparse(response.url)
+
+        Assert.equal(response.status_code, requests.codes.ok, 'Failed on %s \nUsing %s' %(url, param))
+        Assert.equal(parsed_url.scheme, 'http', 'Failed on %s \nUsing %s' %(url, param))
