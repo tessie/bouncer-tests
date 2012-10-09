@@ -26,12 +26,12 @@ class TestRedirects(Base):
 
         response = self._head_request(url, params=param)
 
-        Assert.equal(response.status_code, requests.codes.not_found,'Failed on %s \nUsing %s' %(url, param))
+        Assert.equal(response.status_code, requests.codes.not_found, 'Failed on %s \nUsing %s' % (url, param))
 
         parsed_url = urlparse(response.url)
-        Assert.equal(parsed_url.scheme, 'https', 'Failed on %s \nUsing %s' %(url, param))
-        Assert.equal(parsed_url.netloc, urlparse(url).netloc,'Failed on %s \nUsing %s' %(url, param))
-        Assert.equal(parsed_url.query, urlencode(param),'Failed on %s \nUsing %s' %(url, param))
+        Assert.equal(parsed_url.scheme, 'https', 'Failed on %s \nUsing %s' % (url, param))
+        Assert.equal(parsed_url.netloc, urlparse(url).netloc, 'Failed on %s \nUsing %s' % (url, param))
+        Assert.equal(parsed_url.query, urlencode(param), 'Failed on %s \nUsing %s' % (url, param))
 
     def test_that_checks_redirect_using_locales_and_os(self, mozwebqa, lang, os):
 
@@ -51,5 +51,21 @@ class TestRedirects(Base):
 
         parsed_url = urlparse(response.url)
 
-        Assert.equal(response.status_code, requests.codes.ok, 'Failed on %s \nUsing %s' %(url, param))
-        Assert.equal(parsed_url.scheme, 'http', 'Failed on %s \nUsing %s' %(url, param))
+        Assert.equal(response.status_code, requests.codes.ok, 'Failed on %s \nUsing %s' % (url, param))
+        Assert.equal(parsed_url.scheme, 'http', 'Failed on %s \nUsing %s' % (url, param))
+
+    def test_stub_installer_redirect_for_en_us_and_win(self, mozwebqa):
+        url = mozwebqa.base_url
+        param = {
+            'product': 'firefox-16.0b6',
+            'lang': 'en-US',
+            'os': 'win'
+        }
+
+        response = self._head_request(url, params=param)
+
+        parsed_url = urlparse(response.url)
+
+        Assert.equal(response.status_code, requests.codes.ok, 'Failed on %s \nUsing %s' % (url, param))
+        Assert.equal(parsed_url.scheme, 'https', 'Failed on %s \nUsing %s' % (url, param))
+        Assert.equal(parsed_url.netloc, 'download-installer.cdn.mozilla.net', 'Failed on %s \nUsing %s' % (url, param))
