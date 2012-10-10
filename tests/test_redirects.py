@@ -73,7 +73,7 @@ class TestRedirects(Base):
         {'name': 'win', 'folder': 'win32'},
         {'name': 'osx', 'folder': 'mac'},
         {'name': 'linux', 'folder': 'linux-i686'}])
-    def test_stub_installer_redirect_for_firefox_latest_alias(self, testsetup, operating_system):
+    def test_redirect_for_firefox_latest_alias(self, testsetup, operating_system):
         url = testsetup.base_url
         param = {
             'product': 'firefox-latest',
