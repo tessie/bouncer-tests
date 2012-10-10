@@ -12,8 +12,6 @@ from unittestzero import Assert
 from base import Base
 
 
-@pytest.mark.skip_selenium
-@pytest.mark.nondestructive
 class TestRedirects(Base):
 
     @pytest.mark.parametrize('url', ["http://download.allizom.org/", "https://download.allizom.org/"])
@@ -33,9 +31,9 @@ class TestRedirects(Base):
         Assert.equal(parsed_url.netloc, urlparse(url).netloc, 'Failed on %s \nUsing %s' % (url, param))
         Assert.equal(parsed_url.query, urlencode(param), 'Failed on %s \nUsing %s' % (url, param))
 
-    def test_that_checks_redirect_using_locales_and_os(self, mozwebqa, lang, os):
+    def test_that_checks_redirect_using_locales_and_os(self, testsetup, lang, os):
 
-        url = mozwebqa.base_url
+        url = testsetup.base_url
 
         # Ja locale has a special code for mac
         if lang == 'ja' and os == 'osx':
@@ -54,10 +52,10 @@ class TestRedirects(Base):
         Assert.equal(response.status_code, requests.codes.ok, 'Failed on %s \nUsing %s' % (url, param))
         Assert.equal(parsed_url.scheme, 'http', 'Failed on %s \nUsing %s' % (url, param))
 
-    def test_stub_installer_redirect_for_en_us_and_win(self, mozwebqa):
-        url = mozwebqa.base_url
+    def test_stub_installer_redirect_for_en_us_and_win(self, testsetup):
+        url = testsetup.base_url
         param = {
-            'product': 'firefox-16.0b6',
+            'product': testsetup.product,
             'lang': 'en-US',
             'os': 'win'
         }
@@ -74,8 +72,8 @@ class TestRedirects(Base):
         {'name': 'win', 'folder': 'win32'},
         {'name': 'osx', 'folder': 'mac'},
         {'name': 'linux', 'folder': 'linux-i686'}])
-    def test_stub_installer_redirect_for_firefox_latest_alias(self, mozwebqa, operating_system):
-        url = mozwebqa.base_url
+    def test_stub_installer_redirect_for_firefox_latest_alias(self, testsetup, operating_system):
+        url = testsetup.base_url
         param = {
             'product': 'firefox-latest',
             'os': operating_system['name']
