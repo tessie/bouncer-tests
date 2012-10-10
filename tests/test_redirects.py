@@ -52,6 +52,7 @@ class TestRedirects(Base):
         Assert.equal(response.status_code, requests.codes.ok, 'Failed on %s \nUsing %s' % (url, param))
         Assert.equal(parsed_url.scheme, 'http', 'Failed on %s \nUsing %s' % (url, param))
 
+    @pytest.mark.xfail(reason='there currently is not a stub installer -- xfailing until one lands in the wild')
     def test_stub_installer_redirect_for_en_us_and_win(self, testsetup):
         url = testsetup.base_url
         param = {
