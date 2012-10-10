@@ -70,9 +70,7 @@ class TestRedirects(Base):
         Assert.equal(parsed_url.netloc, 'download-installer.cdn.mozilla.net', 'Failed on %s \nUsing %s' % (url, param))
 
     @pytest.mark.parametrize('operating_system', [
-        {'name': 'win', 'folder': 'win32'},
-        {'name': 'osx', 'folder': 'mac'},
-        {'name': 'linux', 'folder': 'linux-i686'}])
+        {'name': 'win', 'folder': 'win32'}])
     def test_redirect_for_firefox_latest_alias(self, testsetup, operating_system):
         url = testsetup.base_url
         param = {
