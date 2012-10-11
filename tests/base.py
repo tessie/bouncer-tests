@@ -17,7 +17,7 @@ class Base:
         headers = {'user-agent': user_agent,
                    'accept-language': locale}
 
-        return requests.head(url, headers=headers, verify=False, timeout=5, params=params, allow_redirects=True)
+        return requests.head(url, headers=headers, verify=False, timeout=8, params=params, allow_redirects=True)
 
     def _parse_response(self, content):
         return BeautifulSoup(content)
