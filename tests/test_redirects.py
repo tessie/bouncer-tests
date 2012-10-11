@@ -90,4 +90,5 @@ class TestRedirects(Base):
         Assert.equal(response.status_code, requests.codes.ok, 'Failed on %s \nUsing %s' % (url, param))
         Assert.equal(parsed_url.scheme, 'http', 'Failed on %s \nUsing %s' % (url, param))
         Assert.equal(parsed_url.netloc, 'download.cdn.mozilla.net', 'Failed on %s \nUsing %s' % (url, param))
-        Assert.contains('/%s/' % 'win32', parsed_url.path)
+        if product_alias['product_name'] != 'firefox-nightly-latest' or product_alias['product_name'] != 'firefox-aurora-latest':
+            Assert.contains('/%s/' % 'win32', parsed_url.path)
