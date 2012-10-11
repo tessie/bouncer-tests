@@ -69,20 +69,34 @@ class TestRedirects(Base):
         Assert.equal(parsed_url.scheme, 'https', 'Failed on %s \nUsing %s' % (url, param))
         Assert.equal(parsed_url.netloc, 'download-installer.cdn.mozilla.net', 'Failed on %s \nUsing %s' % (url, param))
 
-    @pytest.mark.parametrize('operating_system', [
-        {'name': 'win', 'folder': 'win32'}])
-    def test_redirect_for_firefox_latest_alias(self, testsetup, operating_system):
+    @pytest.mark.parametrize('product_alias', [
+        {'product_name': 'firefox-aurora-latest', 'lang': 'en-US'},
+        {'product_name': 'firefox-beta-latest', 'lang': 'en-US'},
+        {'product_name': 'firefox-latest-euballot', 'lang': 'en-GB'},
+        {'product_name': 'firefox-latest', 'lang': 'en-US'},
+        {'product_name': 'firefox-nightly-latest', 'lang': 'en-US'}])
+    def test_redirect_for_firefox_aliases(self, testsetup, product_alias):
         url = testsetup.base_url
         param = {
-            'product': 'firefox-latest',
-            'os': operating_system['name']
+            'product': product_alias['product_name'],
+            'os': 'win',
+            'lang': product_alias['lang']
         }
 
         response = self._head_request(url, params=param)
 
         parsed_url = urlparse(response.url)
 
-        Assert.equal(response.status_code, requests.codes.ok, 'Failed on %s \nUsing %s' % (url, param))
-        Assert.equal(parsed_url.scheme, 'http', 'Failed on %s \nUsing %s' % (url, param))
-        Assert.equal(parsed_url.netloc, 'download.cdn.mozilla.net', 'Failed on %s \nUsing %s' % (url, param))
-        Assert.contains('/%s/' % operating_system['folder'], parsed_url.path)
+        if not (
+            product_alias['product_name'] == 'firefox-latest-euballot' and
+            "download.allizom.org" in testsetup.base_url
+        ):
+            Assert.equal(response.status_code, requests.codes.ok, 'Failed on %s \nUsing %s' % (url, param))
+            Assert.equal(parsed_url.scheme, 'http', 'Failed on %s \nUsing %s' % (url, param))
+            Assert.equal(parsed_url.netloc, 'download.cdn.mozilla.net', 'Failed on %s \nUsing %s' % (url, param))
+            if (
+                product_alias['product_name'] != 'firefox-nightly-latest' and
+                product_alias['product_name'] != 'firefox-aurora-latest' and
+                product_alias['product_name'] != 'firefox-latest-euballot'
+            ):
+                Assert.contains('/%s/' % 'win32', parsed_url.path)
