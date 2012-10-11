@@ -70,16 +70,16 @@ class TestRedirects(Base):
         Assert.equal(parsed_url.netloc, 'download-installer.cdn.mozilla.net', 'Failed on %s \nUsing %s' % (url, param))
 
     @pytest.mark.parametrize('product_alias', [
-        {'product_name': 'firefox-aurora-latest', 'os_name': 'win', 'os_folder': 'win32'},
-        {'product_name': 'firefox-beta-latest', 'os_name': 'win', 'os_folder': 'win32'},
-        {'product_name': 'firefox-latest-euballot', 'os_name': 'win', 'os_folder': 'win32'},
-        {'product_name': 'firefox-latest', 'os_name': 'win', 'os_folder': 'win32'},
-        {'product_name': 'irefox-nightly-latest', 'os_name': 'win', 'os_folder': 'win32'}])
+        {'product_name': 'firefox-aurora-latest'},
+        {'product_name': 'firefox-beta-latest'},
+        {'product_name': 'firefox-latest-euballot'},
+        {'product_name': 'firefox-latest'},
+        {'product_name': 'firefox-nightly-latest'}])
     def test_redirect_for_firefox_aliases(self, testsetup, product_alias):
         url = testsetup.base_url
         param = {
             'product': product_alias['product_name'],
-            'os': product_alias['os_name']
+            'os': 'win'
         }
 
         response = self._head_request(url, params=param)
@@ -89,4 +89,4 @@ class TestRedirects(Base):
         Assert.equal(response.status_code, requests.codes.ok, 'Failed on %s \nUsing %s' % (url, param))
         Assert.equal(parsed_url.scheme, 'http', 'Failed on %s \nUsing %s' % (url, param))
         Assert.equal(parsed_url.netloc, 'download.cdn.mozilla.net', 'Failed on %s \nUsing %s' % (url, param))
-        Assert.contains('/%s/' % product_alias['os_folder'], parsed_url.path)
+        Assert.contains('/%s/' % 'win32', parsed_url.path)
