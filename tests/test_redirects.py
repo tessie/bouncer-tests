@@ -87,12 +87,16 @@ class TestRedirects(Base):
 
         parsed_url = urlparse(response.url)
 
-        Assert.equal(response.status_code, requests.codes.ok, 'Failed on %s \nUsing %s' % (url, param))
-        Assert.equal(parsed_url.scheme, 'http', 'Failed on %s \nUsing %s' % (url, param))
-        Assert.equal(parsed_url.netloc, 'download.cdn.mozilla.net', 'Failed on %s \nUsing %s' % (url, param))
-        if (
-            product_alias['product_name'] != 'firefox-nightly-latest' and
-            product_alias['product_name'] != 'firefox-aurora-latest' and
-            product_alias['product_name'] != 'firefox-latest-euballot'
+        if not (
+            product_alias['product_name'] == 'firefox-latest-euballot' and
+            "download.allizom.org" in testsetup.base_url
         ):
-            Assert.contains('/%s/' % 'win32', parsed_url.path)
+            Assert.equal(response.status_code, requests.codes.ok, 'Failed on %s \nUsing %s' % (url, param))
+            Assert.equal(parsed_url.scheme, 'http', 'Failed on %s \nUsing %s' % (url, param))
+            Assert.equal(parsed_url.netloc, 'download.cdn.mozilla.net', 'Failed on %s \nUsing %s' % (url, param))
+            if (
+                product_alias['product_name'] != 'firefox-nightly-latest' and
+                product_alias['product_name'] != 'firefox-aurora-latest' and
+                product_alias['product_name'] != 'firefox-latest-euballot'
+            ):
+                Assert.contains('/%s/' % 'win32', parsed_url.path)
