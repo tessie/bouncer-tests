@@ -49,7 +49,11 @@ class TestRedirects(Base):
 
         parsed_url = urlparse(response.url)
 
-        Assert.equal(response.status_code, requests.codes.ok, 'Failed on %s \nUsing %s' % (url, param))
+        Assert.equal(response.status_code, requests.codes.ok, 
+            'Redirect failed with HTTP status %s on %s \n \
+            For %s\n \
+            Redirected to %s' % \
+            (response.status_code, url, param, response.url))
         Assert.equal(parsed_url.scheme, 'http', 'Failed on %s \nUsing %s' % (url, param))
 
     @pytest.mark.xfail(reason='there currently is not a stub installer -- xfailing until one lands in the wild')
