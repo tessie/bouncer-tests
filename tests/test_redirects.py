@@ -91,7 +91,11 @@ class TestRedirects(Base):
             product_alias['product_name'] == 'firefox-latest-euballot' and
             "download.allizom.org" in testsetup.base_url
         ):
-            Assert.equal(response.status_code, requests.codes.ok, 'Failed on %s \nUsing %s' % (url, param))
+            Assert.equal(response.status_code, requests.codes.ok,
+                'Redirect failed with HTTP status %s on %s \n \
+                For %s\n \
+                Redirected to %s' % \
+                (response.status_code, url, param, response.url))
             Assert.equal(parsed_url.scheme, 'http', 'Failed on %s \nUsing %s' % (url, param))
             Assert.equal(parsed_url.netloc, 'download.cdn.mozilla.net', 'Failed on %s \nUsing %s' % (url, param))
             if (
