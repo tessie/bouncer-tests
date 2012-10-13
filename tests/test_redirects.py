@@ -77,6 +77,7 @@ class TestRedirects(Base):
         {'product_name': 'firefox-beta-latest', 'lang': 'en-US'},
         {'product_name': 'firefox-latest-euballot', 'lang': 'en-GB'},
         {'product_name': 'firefox-latest', 'lang': 'en-US'},
+        ]
     def test_redirect_for_firefox_aliases(self, testsetup, product_alias):
         url = testsetup.base_url
         param = {
