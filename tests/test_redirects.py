@@ -74,11 +74,9 @@ class TestRedirects(Base):
         Assert.equal(parsed_url.netloc, 'download-installer.cdn.mozilla.net', 'Failed on %s \nUsing %s' % (url, param))
 
     @pytest.mark.parametrize('product_alias', [
-        {'product_name': 'firefox-aurora-latest', 'lang': 'en-US'},
         {'product_name': 'firefox-beta-latest', 'lang': 'en-US'},
         {'product_name': 'firefox-latest-euballot', 'lang': 'en-GB'},
         {'product_name': 'firefox-latest', 'lang': 'en-US'},
-        {'product_name': 'firefox-nightly-latest', 'lang': 'en-US'}])
     def test_redirect_for_firefox_aliases(self, testsetup, product_alias):
         url = testsetup.base_url
         param = {
