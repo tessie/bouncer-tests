@@ -14,14 +14,13 @@ from base import Base
 
 class TestRedirects(Base):
 
-    @pytest.mark.parametrize('url', ["http://download.allizom.org/", "https://download.allizom.org/"])
-    def test_that_checks_redirect_using_incorrect_query_values(self, url):
+    def test_that_checks_redirect_using_incorrect_query_values(self, testsetup):
         param = {
             'product': 'firefox-16.0b6',
             'lang': 'kitty_language',
             'os': 'stella'
         }
-
+        url = testsetup.base_url
         response = self._head_request(url, params=param)
 
         Assert.equal(response.status_code, requests.codes.not_found, 'Failed on %s \nUsing %s' % (url, param))
