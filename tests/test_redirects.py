@@ -26,7 +26,11 @@ class TestRedirects(Base):
         Assert.equal(response.status_code, requests.codes.not_found, 'Failed on %s \nUsing %s' % (url, param))
 
         parsed_url = urlparse(response.url)
-        Assert.equal(parsed_url.scheme, 'https', 'Failed on %s \nUsing %s' % (url, param))
+        Assert.equal(parsed_url.scheme, 'http', 
+        'Failed by redirected to HTTPS on %s \n \
+        Using %s \n \
+        Redirect to %s' % \
+        (url, param, response.url)) 
         Assert.equal(parsed_url.netloc, urlparse(url).netloc, 'Failed on %s \nUsing %s' % (url, param))
         Assert.equal(parsed_url.query, urlencode(param), 'Failed on %s \nUsing %s' % (url, param))
 
