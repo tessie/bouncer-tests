@@ -14,7 +14,7 @@ from base import Base
 
 class TestRedirects(Base):
 
-    # fails when run agianst stage - xfailed for https://bugzilla.mozilla.org/show_bug.cgi?id=801928
+    # fails when run against stage - xfailed for https://bugzilla.mozilla.org/show_bug.cgi?id=801928
     @pytest.mark.xfail("config.getvalue('base_url') == 'http://download.allizom.org'")
     def test_that_checks_redirect_using_incorrect_query_values(self, testsetup):
         param = {
