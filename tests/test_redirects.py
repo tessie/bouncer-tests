@@ -28,11 +28,11 @@ class TestRedirects(Base):
         Assert.equal(response.status_code, requests.codes.not_found, 'Failed on %s \nUsing %s' % (url, param))
 
         parsed_url = urlparse(response.url)
-        Assert.equal(parsed_url.scheme, 'http', 
+        Assert.equal(parsed_url.scheme, 'http',
         'Failed by redirected to HTTPS on %s \n \
         Using %s \n \
         Redirect to %s' % \
-        (url, param, response.url)) 
+        (url, param, response.url))
         Assert.equal(parsed_url.netloc, urlparse(url).netloc, 'Failed on %s \nUsing %s' % (url, param))
         Assert.equal(parsed_url.query, urlencode(param), 'Failed on %s \nUsing %s' % (url, param))
 
@@ -54,7 +54,7 @@ class TestRedirects(Base):
 
         parsed_url = urlparse(response.url)
 
-        Assert.equal(response.status_code, requests.codes.ok, 
+        Assert.equal(response.status_code, requests.codes.ok,
             'Redirect failed with HTTP status %s on %s \n \
             For %s\n \
             Redirected to %s' % \
@@ -84,6 +84,10 @@ class TestRedirects(Base):
         {'product_name': 'firefox-latest', 'lang': 'en-US'},
         ])
     def test_redirect_for_firefox_aliases(self, testsetup, product_alias):
+
+        if product_alias == {'product_name': 'firefox-latest', 'lang': 'en-US'}:
+            pytest.xfail(reason='https://bugzilla.mozilla.org/show_bug.cgi?id=813968 - Alias returns 404')
+
         url = testsetup.base_url
         param = {
             'product': product_alias['product_name'],
