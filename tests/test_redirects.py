@@ -116,3 +116,35 @@ class TestRedirects(Base):
                 product_alias['product_name'] != 'firefox-latest-euballot'
             ):
                 Assert.contains('/%s/' % 'win32', parsed_url.path)
+    
+    def test_redirect_for_windows_to_version19(self, testsetup):
+        url = testsetup.base_url
+        param = {
+            'product': 'firefox-19.0',
+            'os': 'win',
+            'lang': 'en-US',
+        }
+        
+        response = self._head_request(url, params=param)
+        
+        parsed_url = urlparse(response.url)
+        
+        Assert.true('19.0' in parsed_url.path, 'Redirect failed using params of %s' % (parsed_url.path))
+
+    
+    def test_redirect_special_for_win8_os(self, testsetup):
+        url = testsetup.base_url
+        param = {
+            'product': 'firefox-19.0',
+            'os': 'win',
+            'lang': 'en-US',
+        }
+        
+        user_agent_string = 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)';
+        
+        response = self._head_request(url, params=param, user_agent = user_agent_string)
+        
+        parsed_url = urlparse(response.url)
+        
+        Assert.true('19.0.1' in parsed_url.path, 'Redirect failed using params of %s' % (parsed_url.path))
+        
