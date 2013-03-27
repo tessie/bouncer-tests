@@ -4,8 +4,8 @@
 # You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import requests
+import socket
 from bs4 import BeautifulSoup
-from unittestzero import Assert
 
 
 class Base:
@@ -21,3 +21,11 @@ class Base:
 
     def _parse_response(self, content):
         return BeautifulSoup(content)
+
+    def response_info_failure_message(self, url, param, response):
+        return 'Failed on %s \nUsing %s.\n %s' % (url, param, self.response_info(response))
+
+    def response_info(self, response):
+        url = response.url
+        x_backend_server = response.headers['X-Backend-Server']
+        return 'Response URL: %s\n X-Backend-Server: %s' % (url, x_backend_server)

@@ -25,16 +25,17 @@ class TestRedirects(Base):
         url = testsetup.base_url
         response = self._head_request(url, params=param)
 
-        Assert.equal(response.status_code, requests.codes.not_found, 'Failed on %s \nUsing %s' % (url, param))
+        Assert.equal(response.status_code, requests.codes.not_found,
+                     self.response_info_failure_message(url, param, response))
 
         parsed_url = urlparse(response.url)
         Assert.equal(parsed_url.scheme, 'http',
-        'Failed by redirected to HTTPS on %s \n \
-        Using %s \n \
-        Redirect to %s' % \
-        (url, param, response.url))
-        Assert.equal(parsed_url.netloc, urlparse(url).netloc, 'Failed on %s \nUsing %s' % (url, param))
-        Assert.equal(parsed_url.query, urlencode(param), 'Failed on %s \nUsing %s' % (url, param))
+                     'Failed by redirected to incorrect scheme %s. \n %s' %
+                     (parsed_url.scheme, self.response_info_failure_message(url, param, response)))
+        Assert.equal(parsed_url.netloc, urlparse(url).netloc,
+                     self.response_info_failure_message(url, param, response))
+        Assert.equal(parsed_url.query, urlencode(param),
+                     self.response_info_failure_message(url, param, response))
 
     def test_that_checks_redirect_using_locales_and_os(self, testsetup, lang, os):
 
@@ -55,11 +56,11 @@ class TestRedirects(Base):
         parsed_url = urlparse(response.url)
 
         Assert.equal(response.status_code, requests.codes.ok,
-            'Redirect failed with HTTP status %s on %s \n \
-            For %s\n \
-            Redirected to %s' % \
-            (response.status_code, url, param, response.url))
-        Assert.equal(parsed_url.scheme, 'http', 'Failed on %s \nUsing %s' % (url, param))
+                     'Redirect failed with HTTP status %s. \n %s' %
+                     (response.status_code, self.response_info_failure_message(url, param, response)))
+        Assert.equal(parsed_url.scheme, 'http',
+                     'Failed by redirected to incorrect scheme %s. \n %s' %
+                     (parsed_url.scheme, self.response_info_failure_message(url, param, response)))
 
     @pytest.mark.xfail(reason='there currently is not a stub installer -- xfailing until one lands in the wild')
     def test_stub_installer_redirect_for_en_us_and_win(self, testsetup):
@@ -74,15 +75,21 @@ class TestRedirects(Base):
 
         parsed_url = urlparse(response.url)
 
-        Assert.equal(response.status_code, requests.codes.ok, 'Failed on %s \nUsing %s' % (url, param))
-        Assert.equal(parsed_url.scheme, 'https', 'Failed on %s \nUsing %s' % (url, param))
-        Assert.equal(parsed_url.netloc, 'download-installer.cdn.mozilla.net', 'Failed on %s \nUsing %s' % (url, param))
+        Assert.equal(response.status_code, requests.codes.ok,
+                     'Redirect failed with HTTP status %s. \n %s' %
+                     (response.status_code, self.response_info_failure_message(url, param, response)))
+        Assert.equal(parsed_url.scheme, 'https',
+                     'Failed by redirected to incorrect scheme %s. \n %s' %
+                     (parsed_url.scheme, self.response_info_failure_message(url, param, response)))
+        Assert.equal(parsed_url.netloc, 'download-installer.cdn.mozilla.net',
+                     'Failed by redirected to incorrect host %s. \n %s' %
+                     (parsed_url.netloc, self.response_info_failure_message(url, param, response)))
 
     @pytest.mark.parametrize('product_alias', [
         {'product_name': 'firefox-beta-latest', 'lang': 'en-US'},
         {'product_name': 'firefox-latest-euballot', 'lang': 'en-GB'},
         {'product_name': 'firefox-latest', 'lang': 'en-US'},
-        ])
+    ])
     def test_redirect_for_firefox_aliases(self, testsetup, product_alias):
 
         if product_alias == {'product_name': 'firefox-latest', 'lang': 'en-US'}:
@@ -104,16 +111,18 @@ class TestRedirects(Base):
             "download.allizom.org" in testsetup.base_url
         ):
             Assert.equal(response.status_code, requests.codes.ok,
-                'Redirect failed with HTTP status %s on %s \n \
-                For %s\n \
-                Redirected to %s' % \
-                (response.status_code, url, param, response.url))
-            Assert.equal(parsed_url.scheme, 'http', 'Failed on %s \nUsing %s' % (url, param))
-            Assert.equal(parsed_url.netloc, 'download.cdn.mozilla.net', 'Failed on %s \nUsing %s' % (url, param))
+                         'Redirect failed with HTTP status %s. \n %s' %
+                         (response.status_code, self.response_info_failure_message(url, param, response)))
+            Assert.equal(parsed_url.scheme, 'http',
+                         'Failed by redirected to incorrect scheme %s. \n %s' %
+                         (parsed_url.scheme, self.response_info_failure_message(url, param, response)))
+            Assert.equal(parsed_url.netloc, 'download.cdn.mozilla.net',
+                         'Failed by redirected to incorrect host %s. \n %s' %
+                         (parsed_url.netloc, self.response_info_failure_message(url, param, response)))
             if (
                 product_alias['product_name'] != 'firefox-nightly-latest' and
                 product_alias['product_name'] != 'firefox-aurora-latest' and
                 product_alias['product_name'] != 'firefox-latest-euballot'
             ):
-                Assert.contains('/%s/' % 'win32', parsed_url.path)
-
+                Assert.contains('/%s/' % 'win32', parsed_url.path,
+                                '\n %s' % self.response_info(response))
