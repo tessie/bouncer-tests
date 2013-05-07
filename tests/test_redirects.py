@@ -126,14 +126,3 @@ class TestRedirects(Base):
             ):
                 Assert.contains('/%s/' % 'win32', parsed_url.path,
                                 '\n %s' % self.response_info(response))
-
-    def test_redirect_for_windows_200_to_2001(self, testsetup):
-        url = testsetup.base_url
-        param = {
-            'product': 'firefox-20.0',
-            'os': 'win',
-            'lang': 'en-US',
-        }
-        response = self._head_request(url, params=param)
-        parsed_url = urlparse(response.url)
-        Assert.contains('20.0.1', response.url, '\n %s' % self.response_info(response))
