@@ -1,8 +1,8 @@
 # This pulls in all the libraries needed to run Selenium tests
 # on Mozilla WebQA projects
 
-py==1.4.8
-pytest==2.2.4
+py==1.4.14
+pytest==2.3.5
 pytest-xdist==1.8
 unittestzero
 requests==0.11.2

@@ -21,10 +21,11 @@ def pytest_generate_tests(metafunc):
     if 'os' in metafunc.funcargnames:
         metafunc.parametrize('os',  OS)
 
-def pytest_sessionstart(session):
-    print session.config.option.base_url
-    if session.config.option.base_url is None:
+
+def pytest_configure(config):
+    if not config.option.base_url:
         raise pytest.UsageError('--baseurl must be specified.')
+
 
 def pytest_addoption(parser):
     parser.addoption("--baseurl",
@@ -40,11 +41,12 @@ def pytest_addoption(parser):
         default='firefox-latest',
         help='product under test')
 
-def pytest_funcarg__testsetup(request):
-    return TestSetup(request)
 
-class TestSetup(object):
+@pytest.fixture
+def base_url(request):
+    return request.config.getoption("--baseurl")
 
-    def __init__(self, options):
-        self.base_url = options.config.option.base_url
-        self.product = options.config.option.product
+
+@pytest.fixture
+def product(request):
+    return request.config.getoption("--product")
