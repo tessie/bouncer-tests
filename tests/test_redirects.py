@@ -111,8 +111,8 @@ class TestRedirects(Base):
                          'Failed by redirected to incorrect scheme %s. \n %s' %
                          (parsed_url.scheme, self.response_info_failure_message(base_url, param, response)))
             Assert.true(parsed_url.netloc.endswith(('download.cdn.mozilla.net', 'edgecastcdn.net')),
-                         'Failed by redirected to incorrect host %s. \n %s' %
-                         (parsed_url.netloc, self.response_info_failure_message(base_url, param, response)))
+                        'Failed by redirected to incorrect host %s. \n %s' %
+                        (parsed_url.netloc, self.response_info_failure_message(base_url, param, response)))
             if (
                 product_alias['product_name'] != 'firefox-nightly-latest' and
                 product_alias['product_name'] != 'firefox-aurora-latest' and
