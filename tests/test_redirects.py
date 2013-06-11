@@ -110,7 +110,7 @@ class TestRedirects(Base):
             Assert.equal(parsed_url.scheme, 'http',
                          'Failed by redirected to incorrect scheme %s. \n %s' %
                          (parsed_url.scheme, self.response_info_failure_message(base_url, param, response)))
-            Assert.equal(parsed_url.netloc, 'download.cdn.mozilla.net',
+            Assert.true(parsed_url.netloc.endswith(('download.cdn.mozilla.net', 'edgecastcdn.net')),
                          'Failed by redirected to incorrect host %s. \n %s' %
                          (parsed_url.netloc, self.response_info_failure_message(base_url, param, response)))
             if (
