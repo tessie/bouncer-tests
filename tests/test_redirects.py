@@ -87,7 +87,7 @@ class TestRedirects(Base):
     ])
     def test_redirect_for_firefox_aliases(self, base_url, product_alias):
 
-        if product_alias == {'product_name': 'firefox-latest', 'lang': 'en-US'}:
+        if product_alias == {'product_name': 'firefox-latest', 'lang': 'en-US'} and base_url == 'http://download.allizom.org':
             pytest.xfail(reason='https://bugzilla.mozilla.org/show_bug.cgi?id=813968 - Alias returns 404')
 
         param = {
