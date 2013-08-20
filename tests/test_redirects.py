@@ -120,3 +120,14 @@ class TestRedirects(Base):
             ):
                 Assert.contains('/%s/' % 'win32', parsed_url.path,
                                 '\n %s' % self.response_info(response))
+
+    def test_robotstxt_exists(self, base_url):
+
+        url = '%s/robots.txt' % base_url
+        response = self._head_request(url)
+
+        Assert.equal(
+            response.status_code,
+            requests.codes.ok,
+            'Robots.txt does not exist'
+        )
