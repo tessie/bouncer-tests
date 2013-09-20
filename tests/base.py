@@ -15,7 +15,7 @@ class Base:
                       locale='en-US', params=None):
         headers = {'user-agent': user_agent,
                    'accept-language': locale}
-        r = requests.head(url, headers=headers, verify=False, timeout=9,
+        r = requests.head(url, headers=headers, verify=False, timeout=15,
                           params=params, allow_redirects=True)
         return r
 
