@@ -103,8 +103,6 @@ class TestRedirects(Base):
                 response))
         )
 
-    @pytest.mark.xfail(reason='there currently is not a stub installer -- '
-                       'xfailing until one lands in the wild')
     def test_stub_installer_redirect_for_en_us_and_win(self, base_url, product):
         param = {
             'product': product,
@@ -148,6 +146,8 @@ class TestRedirects(Base):
         {'product_name': 'firefox-beta-latest', 'lang': 'en-US'},
         {'product_name': 'firefox-latest-euballot', 'lang': 'en-GB'},
         {'product_name': 'firefox-latest', 'lang': 'en-US'},
+        {'product_name': 'firefox-beta-stub', 'lang': 'en-US'},
+        {'product_name': 'firefox-nightly-latest', 'lang': 'en-US'},
     ])
     def test_redirect_for_firefox_aliases(self, base_url, product_alias):
 
@@ -173,6 +173,9 @@ class TestRedirects(Base):
             product_alias['product_name'] == 'firefox-latest-euballot' and
             "download.allizom.org" in base_url
         ):
+            url_scheme = 'http'
+            if product_alias['product_name'] == 'firefox-beta-stub':
+                url_scheme = 'https'
             Assert.equal(
                 response.status_code,
                 requests.codes.ok,
@@ -184,7 +187,7 @@ class TestRedirects(Base):
             )
             Assert.equal(
                 parsed_url.scheme,
-                'http',
+                url_scheme,
                 'Failed by redirected to incorrect scheme %s. \n %s' %
                 (parsed_url.scheme, self.response_info_failure_message(
                     base_url,
@@ -193,7 +196,7 @@ class TestRedirects(Base):
             )
             Assert.true(
                 parsed_url.netloc.endswith(
-                    ('download.cdn.mozilla.net', 'edgecastcdn.net', 
+                    ('download.cdn.mozilla.net', 'edgecastcdn.net',
                         'download-installer.cdn.mozilla.net')
                 ),
                 'Failed by redirected to incorrect host %s. \n %s' %

@@ -42,7 +42,7 @@ def pytest_addoption(parser):
                      action='store',
                      dest='product',
                      metavar='str',
-                     default='firefox-latest',
+                     default='firefox-stub',
                      help='product under test')
 
 
