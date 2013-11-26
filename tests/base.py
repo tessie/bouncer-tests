@@ -2,8 +2,11 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this file,
 # You can obtain one at http://mozilla.org/MPL/2.0/.
 
+from urllib import urlencode
+
 import requests
 from bs4 import BeautifulSoup
+from unittestzero import Assert
 
 
 class Base:
@@ -15,9 +18,13 @@ class Base:
                       locale='en-US', params=None):
         headers = {'user-agent': user_agent,
                    'accept-language': locale}
-        r = requests.head(url, headers=headers, verify=False, timeout=15,
-                          params=params, allow_redirects=True)
-        return r
+
+        try:
+            return requests.head(url, headers=headers, verify=False, timeout=15,
+                                 params=params, allow_redirects=True)
+        except requests.RequestException as e:
+            request_url = self._build_request_url(url, params)
+            Assert.fail('Failing URL: %s.\nError message: %s' % (request_url, e))
 
     def _parse_response(self, content):
         return BeautifulSoup(content)
@@ -32,3 +39,9 @@ class Base:
         x_backend_server = response.headers['X-Backend-Server']
         return 'Response URL: %s\n X-Backend-Server: %s' % (url,
                                                             x_backend_server)
+
+    def _build_request_url(self, url, params):
+        if params:
+            return '%s/?%s' % (url, urlencode(params))
+        else:
+            return url
