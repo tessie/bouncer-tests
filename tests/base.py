@@ -20,12 +20,11 @@ class Base:
                    'accept-language': locale}
 
         try:
-            r = requests.head(url, headers=headers, verify=False, timeout=15,
-                              params=params, allow_redirects=True)
+            return requests.head(url, headers=headers, verify=False, timeout=15,
+                                 params=params, allow_redirects=True)
         except requests.RequestException as e:
-            url = params and self._build_request_url(url, params) or url
-            Assert.fail('Failing URL: %s.\nError message: %s' % (url, e))
-        return r
+            request_url = self._build_request_url(url, params)
+            Assert.fail('Failing URL: %s.\nError message: %s' % (request_url, e))
 
     def _parse_response(self, content):
         return BeautifulSoup(content)
@@ -42,4 +41,7 @@ class Base:
                                                             x_backend_server)
 
     def _build_request_url(self, url, params):
-        return '%s/?%s' % (url, urlencode(params))
+        if params:
+            return '%s/?%s' % (url, urlencode(params))
+        else:
+            return url
