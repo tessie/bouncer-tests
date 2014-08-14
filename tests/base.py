@@ -20,11 +20,24 @@ class Base:
                    'accept-language': locale}
 
         try:
-            return requests.head(url, headers=headers, verify=False, timeout=15,
-                                 params=params, allow_redirects=True)
+            r = requests.head(url, headers=headers, verify=False, timeout=15,
+                                 params=params, allow_redirects=False)
         except requests.RequestException as e:
             request_url = self._build_request_url(url, params)
+
             Assert.fail('Failing URL: %s.\nError message: %s' % (request_url, e))
+
+	if r.status_code == 302 and r.headers['Location']:
+	    try:
+		request_url = r.headers['Location']
+	        r = requests.head(request_url, headers=headers, verify=False, timeout=15,
+                                  params=params, allow_redirects=True)
+            except requests.RequestException as e:
+                request_url = self._build_request_url(url, params)
+
+                Assert.fail('Failing URL: %s.\nError message: %s' % (request_url, e))
+
+	return r
 
     def _parse_response(self, content):
         return BeautifulSoup(content)
