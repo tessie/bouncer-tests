@@ -17,7 +17,8 @@ class Base:
     def _head_request(self, url, user_agent=_user_agent_firefox,
                       locale='en-US', params=None):
         headers = {'user-agent': user_agent,
-                   'accept-language': locale}
+                   'accept-language': locale,
+                   'Connection': 'close'}
 
         try:
             r = requests.head(url, headers=headers, verify=False, timeout=15,
