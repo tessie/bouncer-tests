@@ -34,8 +34,6 @@ class Base:
 	        r = requests.head(request_url, headers=headers, verify=False, timeout=15,
                                   params=params, allow_redirects=True)
             except requests.RequestException as e:
-                request_url = self._build_request_url(url, params)
-
                 Assert.fail('Failing URL: %s.\nError message: %s' % (request_url, e))
 
 	return r
