@@ -80,7 +80,7 @@ class TestRedirects(Base):
             lang = 'ja-JP-mac'
 
         param = {
-            'product': 'firefox-16.0b6',
+            'product': 'firefox-31.0',
             'lang': lang,
             'os': os
         }
