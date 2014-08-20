@@ -212,10 +212,9 @@ class TestRedirects(Base):
                     response))
             )
             Assert.true(
-                parsed_url.netloc.endswith(
-                    ('download.cdn.mozilla.net', 'edgecastcdn.net',
-                        'download-installer.cdn.mozilla.net')
-                ),
+                parsed_url.netloc in ['download.cdn.mozilla.net', 'edgecastcdn.net',
+                        'download-installer.cdn.mozilla.net', 'ftp.mozilla.org']
+               ,
                 'Failed by redirected to incorrect host %s. \n %s' %
                 (parsed_url.netloc, self.response_info_failure_message(
                     base_url,
