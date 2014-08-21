@@ -13,12 +13,6 @@ from base import Base
 
 
 class TestRedirects(Base):
-
-    # fails when run against stage - xfailed for
-    # https://bugzilla.mozilla.org/show_bug.cgi?id=801928
-    @pytest.mark.xfail(
-        "config.getvalue('base_url') == 'http://download.allizom.org'"
-    )
     def test_that_checks_redirect_using_incorrect_query_values(self, base_url):
         param = {
             'product': 'firefox-31.0',
@@ -64,11 +58,6 @@ class TestRedirects(Base):
                 response)
         )
 
-    # fails when run against stage - xfailed for
-    # https://bugzilla.mozilla.org/show_bug.cgi?id=801928
-    @pytest.mark.xfail(
-        "config.getvalue('base_url') == 'http://download.allizom.org'"
-    )
     def test_that_checks_redirect_using_locales_and_os(
         self,
         base_url,
