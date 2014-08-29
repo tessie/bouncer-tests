@@ -6,10 +6,7 @@ The following contributors have submitted pull requests to Addon-Tests:
 
 https://github.com/mozilla/Bouncer-Tests/contributors
 
-Continuous Integration
-----------------------
 
-[![Build Status](https://secure.travis-ci.org/mozilla/Bouncer-Tests.png?branch=master)](http://travis-ci.org/mozilla/Bouncer-Tests/)
 
 Getting involved as a contributor
 ------------------------------------------
@@ -74,7 +71,14 @@ For more information on virtualenv, [see below] (#virtualenv-and-virtualenvwrapp
 
 #### Running tests locally
 
-Tests are run using the py.test library. You will find examples here for running all of the tests, tests in one file and running a single test.
+To run these tests, use:
+
+ py.test  --baseurl="http://download.allizom.org"
+
+
+Use -k to run a specific test.
+eg :
+py.test -k test_that_checks_redirect_using_incorrect_query_values --baseurl="http://download.allizom.org"
 
 WebDriver does not need a Selenium Server or Grid to run so these examples bypass this step and just use the --driver command.
 le
