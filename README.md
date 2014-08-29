@@ -4,12 +4,12 @@ Selenium Tests for addons.mozilla.org (amo)
 Thank you for checking out Mozilla's Addon-Tests test suite. Mozilla and the Mozwebqa team are grateful for the help and hard work of many contributors like yourself.
 The following contributors have submitted pull requests to Addon-Tests:
 
-https://github.com/mozilla/Addon-Tests/contributors
+https://github.com/mozilla/Bouncer-Tests/contributors
 
 Continuous Integration
 ----------------------
 
-[![Build Status](https://secure.travis-ci.org/mozilla/Addon-Tests.png?branch=master)](http://travis-ci.org/mozilla/Addon-Tests/)
+[![Build Status](https://secure.travis-ci.org/mozilla/Bouncer-Tests.png?branch=master)](http://travis-ci.org/mozilla/Bouncer-Tests/)
 
 Getting involved as a contributor
 ------------------------------------------
@@ -37,7 +37,7 @@ While we take pains to keep our documentation updated, the best source of inform
 
 How to Set up and Build AMO Tests Locally
 -----------------------------------------
-This repository contains Selenium tests used to test the website addons.mozilla.org.
+This repository contains Selenium tests used to test the mozilla's Bouncer
 
 Mozilla maintains a guide to running Automated tests on our QMO website:
 
@@ -60,12 +60,6 @@ Install pip (for managing Python packages):
 
     sudo easy_install pip
 
-#### Before you begin
-Before you dive into running tests you will want to register for an account on 
-[Addons-Dev][AddonsDev].  For security reasons you may want to create
-this account with a different username and password than you may have on the production addons site.
-[AddonsDev]: https://addons-dev.allizom.org/en-US/firefox/
-
 #### Installing dependencies
 
 If you are using virtualenv, create and activate the virtualenv, then run the following in the project root:
@@ -83,27 +77,7 @@ For more information on virtualenv, [see below] (#virtualenv-and-virtualenvwrapp
 Tests are run using the py.test library. You will find examples here for running all of the tests, tests in one file and running a single test.
 
 WebDriver does not need a Selenium Server or Grid to run so these examples bypass this step and just use the --driver command.
-
-An example of running all tests:
-
-	py.test --driver=firefox --credentials=./credentials.yaml
-	
-An example of running all of the tests in one file:
-
-	py.test --driver=firefox --credentials=./credentials.yaml tests/desktop/test_details_page.py
-	
-An example of running one test in a file:
-
-	py.test --driver=firefox --credentials=./credentials.yaml tests/desktop/test_details_page.py -k test_that_external_link_leads_to_addon_website
-
-If running on a Mac, skip tests which require 'native' support:
-
-    py.test --driver=firefox --credentials=./credentials.yaml -m 'not native'
-    
-Depending on the platform you're running the tests on, run only the tests in the mobile or desktop directories:
-
-    py.test --driver=firefox --credentials=./credentials.yaml tests/desktop
-    py.test --driver=firefox --credentials=./credentials.yaml tests/mobile
+le
     
 For information about running tests against a Selenium Grid or moz-grid-config see the section in this document about setting up moz-grid-config.
 
