@@ -11,7 +11,7 @@ https://github.com/mozilla/Bouncer-Tests/contributors
 Getting involved as a contributor
 ------------------------------------------
 
-We love working with contributors to fill out the Selenium test coverage for Addon-Tests, but it does require a few skills.   You will need to know some Python, some Selenium and you will need some basic familiarity with Github.
+We love working with contributors to fill out the Selenium test coverage for Bouncer-Tests, but it does require a few skills.   You will need to know some Python, some Selenium and you will need some basic familiarity with Github.
 
 If you know some Python, it's worth having a look at the Selenium framework to understand the basic concepts of browser based testing and especially page objects. Our suite uses [Selenium WebDriver][webdriver].
 
