@@ -2,7 +2,7 @@ Selenium Tests for download.allizom.org
 ====================
 
 Thank you for checking out Mozilla's Bouncer test suite. Mozilla and the Mozwebqa team are grateful for the help and hard work of many contributors like yourself.
-The following contributors have submitted pull requests to Addon-Tests:
+The following contributors have submitted pull requests to Bouncer-Tests:
 
 https://github.com/mozilla/Bouncer-Tests/contributors
 
@@ -32,7 +32,7 @@ While we take pains to keep our documentation updated, the best source of inform
 [mozwebqa]:http://02.chat.mibbit.com/?server=irc.mozilla.org&channel=#mozwebqa
 [mozillians]:http://02.chat.mibbit.com/?server=irc.mozilla.org&channel=#mozillians
 
-How to Set up and Build AMO Tests Locally
+How to Set up and Build Bouncer Tests Locally
 -----------------------------------------
 This repository contains Selenium tests used to test the mozilla's Bouncer
 
